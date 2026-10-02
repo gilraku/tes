@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Legal Compliance Dashboard</title>
+    <style>
+        :root {
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            --bg: #f5f7fa;
+            --card: #fff;
+            --bd: #e3e8ef;
+            --tx: #0f172a;
+            --mu: #64748b;
+            --g: #10b981;
+            --gd: #0f5e4d;
+            --gl: #dcfce7;
+            --r: #e11d48;
+            --rl: #fff1f2;
+            --rb: #fecdd3;
+            --v: #6d28d9;
+            --ch: #f8fafc
+        }
+
+        @media(prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0b1220;
+                --card: #131c2e;
+                --bd: #25324a;
+                --tx: #e8eef8;
+                --mu: #94a3b8;
+                --gl: #12352b;
+                --rl: #3a1622;
+                --rb: #5b2233;
+                --v: #a78bfa;
+                --ch: #182338
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #0b1220;
+            --card: #131c2e;
+            --bd: #25324a;
+            --tx: #e8eef8;
+            --mu: #94a3b8;
+            --gl: #12352b;
+            --rl: #3a1622;
+            --rb: #5b2233;
+            --v: #a78bfa;
+            --ch: #182338
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--tx);
+            font: 14px/1.45 Inter, "Plus Jakarta Sans", system-ui, sans-serif
+        }
+
+        .w {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 18px;
+            padding: 18px
+        }
+
+        .hd {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 12px
+        }
+
+        .logo {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .ic {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--g);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 20px
+        }
+
+        h1 {
+            font-size: 18px;
+            margin: 0
+        }
+
+        .sub {
+            color: var(--mu);
+            font-size: 12px
+        }
+
+        .bdg {
+            background: var(--gl);
+            color: var(--g);
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 99px;
+            margin-left: 6px;
+            font-weight: 600
+        }
+
+        .box {
+            border: 1px solid var(--bd);
+            background: var(--ch);
+            border-radius: 12px;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: var(--mu)
+        }
+
+        .box b {
+            display: block;
+            font-size: 15px;
+            color: var(--tx)
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--bd);
+            padding-bottom: 10px;
+            margin-bottom: 16px
+        }
+
+        .tab {
+            border: 0;
+            background: none;
+            color: var(--mu);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap
+        }
+
+        .tab.on {
+            background: var(--gl);
+            color: var(--g)
+        }
+
+        .tab i {
+            font-style: normal;
+            background: var(--bd);
+            color: var(--tx);
+            border-radius: 99px;
+            padding: 1px 7px;
+            font-size: 11px;
+            margin-left: 4px
+        }
+
+        .tab i.red {
+            background: var(--r);
+            color: #fff
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #0f5e4d, #1b7f63);
+            color: #fff;
+            border-radius: 18px;
+            padding: 26px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 16px
+        }
+
+        .hero h2 {
+            margin: 0 0 6px;
+            font-size: 26px
+        }
+
+        .hero p {
+            margin: 0 0 14px;
+            opacity: .85
+        }
+
+        .chip {
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, .4);
+            border-radius: 99px;
+            padding: 4px 12px;
+            font-size: 12px;
+            margin: 0 6px 6px 0;
+            background: rgba(255, 255, 255, .1);
+            color: #fff
+        }
+
+        button.chip {
+            background: #fff;
+            color: #0f5e4d;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .sc {
+            background: rgba(255, 255, 255, .14);
+            border: 1px solid rgba(255, 255, 255, .3);
+            border-radius: 16px;
+            padding: 16px 26px;
+            text-align: center
+        }
+
+        .sc small {
+            font-size: 11px;
+            letter-spacing: .08em
+        }
+
+        .sc b {
+            display: block;
+            font-size: 44px;
+            line-height: 1.1
+        }
+
+        .g4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 16px
+        }
+
+        .k small {
+            font-size: 11px;
+            letter-spacing: .06em;
+            color: var(--mu);
+            text-transform: uppercase
+        }
+
+        .k b {
+            display: block;
+            font-size: 30px
+        }
+
+        .k span {
+            font-size: 12px;
+            color: var(--mu)
+        }
+
+        .g3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 14px;
+            margin-bottom: 16px
+        }
+
+        h3 {
+            margin: 0 0 4px;
+            font-size: 16px
+        }
+
+        .bar {
+            height: 10px;
+            background: var(--bd);
+            border-radius: 9px;
+            overflow: hidden;
+            display: flex
+        }
+
+        .bar>i {
+            background: var(--g)
+        }
+
+        .bar>u {
+            background: var(--r)
+        }
+
+        .lg div {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 13px
+        }
+
+        .dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            margin-right: 8px
+        }
+
+        .al {
+            background: var(--rl);
+            border: 1px solid var(--rb);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 12px
+        }
+
+        .al b {
+            font-size: 13px
+        }
+
+        .al em {
+            color: var(--mu)
+        }
+
+        .sc2 {
+            max-height: 290px;
+            overflow: auto
+        }
+
+        .tb {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 12px 0
+        }
+
+        input,
+        select {
+            background: var(--card);
+            color: var(--tx);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font: inherit
+        }
+
+        input {
+            flex: 1;
+            min-width: 180px
+        }
+
+        .seg {
+            display: flex;
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            overflow: hidden
+        }
+
+        .seg button {
+            border: 0;
+            background: none;
+            color: var(--mu);
+            padding: 8px 12px;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        .seg .on {
+            background: var(--rl);
+            color: var(--r)
+        }
+
+        .tw {
+            overflow-x: auto
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 820px
+        }
+
+        th {
+            font-size: 11px;
+            letter-spacing: .05em;
+            color: var(--mu);
+            text-align: left;
+            padding: 10px 8px;
+            background: var(--ch);
+            text-transform: uppercase
+        }
+
+        td {
+            padding: 10px 8px;
+            border-top: 1px solid var(--bd);
+            vertical-align: top
+        }
+
+        tr.bad td {
+            background: var(--rl)
+        }
+
+        .no {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--rb);
+            color: var(--r);
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700
+        }
+
+        .tg {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 6px;
+            background: var(--gl);
+            color: var(--g)
+        }
+
+        .tg.lh {
+            background: #dbeafe;
+            color: #1d4ed8
+        }
+
+        .dn {
+            color: var(--r);
+            font-size: 11px;
+            margin-top: 2px
+        }
+
+        .pill {
+            border-radius: 99px;
+            padding: 2px 10px;
+            font-weight: 700;
+            font-size: 12px;
+            background: var(--rl);
+            color: var(--r);
+            border: 1px solid var(--rb)
+        }
+
+        .pill.ok {
+            background: var(--gl);
+            color: var(--g);
+            border-color: transparent
+        }
+
+        a.d {
+            color: var(--v);
+            cursor: pointer;
+            font-weight: 600;
+            background: none;
+            border: 0;
+            font: inherit;
+            font-weight: 600
+        }
+
+        .pg {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            color: var(--mu);
+            font-size: 13px
+        }
+
+        .pg button {
+            border: 1px solid var(--bd);
+            background: var(--card);
+            color: var(--tx);
+            border-radius: 8px;
+            padding: 6px 12px;
+            cursor: pointer
+        }
+
+        .pg button:disabled {
+            opacity: .4
+        }
+
+        .dr {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            display: none;
+            justify-content: flex-end;
+            z-index: 9
+        }
+
+        .dr.on {
+            display: flex
+        }
+
+        .dr>div {
+            width: min(560px, 100%);
+            background: var(--card);
+            height: 100%;
+            overflow: auto;
+            padding: 20px;
+            padding-top: calc(20px + env(safe-area-inset-top, 0px))
+        }
+
+        .cl {
+            border: 1px solid var(--bd);
+            border-radius: 12px;
+            padding: 10px;
+            margin: 8px 0;
+            font-size: 13px
+        }
+
+        .cl.b {
+            border-color: var(--rb);
+            background: var(--rl)
+        }
+
+        .emp {
+            text-align: center;
+            color: var(--mu);
+            padding: 30px
+        }
+
+        @media print {
+
+            .tabs,
+            .tb,
+            .pg,
+            button.chip {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="w" id="app"></div>
+    <div class="dr" id="dr">
+        <div id="drb"></div>
+    </div>
+    <div id="st" class="w sub" style="padding:0 16px"></div>
+    <script>
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS8WAYwJ1G2HxqvyMx_2JO0L8S0We-aYNvYurIPdShn_Ab35Gt1MNOOBhHQjgoE0ZWsL9YsUsXgwn-8/pub?output=csv";
+        const BODY = "\nconst DB=window.__DB;\nconst R=DB.regs,pct=v=>(v*100).toFixed(1)+'%',esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));\nconst clauses=R.reduce((s,r)=>s+r.p+r.b,0),cP=R.reduce((s,r)=>s+r.p,0);\nconst full=R.filter(r=>r.v>=1),low=R.filter(r=>r.v<1).sort((a,b)=>a.v-b.v);\nconst score=R.reduce((s,r)=>s+r.v,0)/R.length;\nconst asp=a=>{const x=R.filter(r=>r.a==a);const p=x.reduce((s,r)=>s+r.p,0),t=x.reduce((s,r)=>s+r.p+r.b,0);return{n:x.length,p,t}};\nconst K3=asp('K3'),LH=asp('LH');\nconst rtl=R.flatMap(r=>r.x.map(c=>({r,c})));\nconst depts=Object.entries(DB.dept).map(([n,[p,b]])=>({n,p,b,v:p+b?p/(p+b):1})).sort((a,b)=>a.v-b.v);\nconst dr_=R.reduce((m,r)=>{new Set((r.c||[]).flatMap(c=>[...c[3],...c[4]])).forEach(k=>m[k]=(m[k]||0)+1);return m},{});depts.forEach(d=>d.r=dr_[DB.dn.indexOf(d.n)]||0);\nfunction goDept(n){S.dept=n;S.tab='reg';S.f='all';S.pg=0;S.q='';draw();scrollTo(0,0)}\nconst dNot=depts.filter(d=>d.b>0).length;\nlet S={dept:'',tab:'ring',q:'',f:'low',asp:'',pg:0,dq:''};const PS=10;\nconst kpi=(l,v,s,c='')=>`<div class=\"card k\"><small>${l}</small><b style=\"color:${c}\">v</b><span>{s}</span></div>`;\nfunction ring(){const c=2*Math.PI*70,o=c*(1-score);return`<svg viewBox=\"0 0 180 180\" width=\"200\" style=\"display:block;margin:12px auto\"><circle cx=\"90\" cy=\"90\" r=\"70\" fill=\"none\" stroke=\"var(--rb)\" stroke-width=\"16\"/><circle cx=\"90\" cy=\"90\" r=\"70\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"16\" stroke-linecap=\"round\" stroke-dasharray=\"${c}\" stroke-dashoffset=\"${o}\" transform=\"rotate(-90 90 90)\"/><text x=\"90\" y=\"98\" text-anchor=\"middle\" font-size=\"26\" font-weight=\"800\" fill=\"currentColor\">${pct(score)}</text></svg>`}\nfunction aspBar(n,a){const p=a.p/a.t*100;return`<div style=\"margin:14px 0\"><div style=\"display:flex;justify-content:space-between\"><b>${n}</b><span>${p.toFixed(1)}% Compliance</span></div><div class=\"bar\" style=\"margin:6px 0\"><i style=\"width:${p}%\"></i><u style=\"width:${100-p}%\"></u></div><div class=\"sub\" style=\"display:flex;justify-content:space-between\"><span>${a.p} Patuh</span><span>${a.t} Total Klausul</span></div></div>`}\nfunction ringkasan(){return`\n<div class=\"hero\"><div><h2>Evaluasi Kepatuhan Peraturan K3 & LH</h2><p>Rekapitulasi kepatuhan terhadap regulasi lingkungan hidup, K3 pertambangan, dan perizinan.</p><span class=\"chip\">Peraturan K3: ${K3.n}</span><span class=\"chip\">Peraturan LH: ${LH.n}</span><button class=\"chip\" onclick=\"print()\">\u2b07 Download Laporan PDF</button></div>\n<div class=\"sc\"><small>SKOR KEPATUHAN GLOBAL</small><b>${pct(score)}</b><span style=\"font-size:12px\">${full.length} Peraturan 100% Patuh</span></div></div>\n<div class=\"g4\">${kpi('Total Regulasi',R.length,'Regulasi yang dipantau')}kpi('ComplianceMet',full.length,'Regulasimencapai100%kepatuhan','var(--g)'){kpi('Departments not 100% compliant',dNot+' Departments','dari '+depts.length+' departemen dievaluasi','var(--r)')}${kpi('Penyelesaian RTL','0/'+rtl.length,'0.0% RTL selesai','#0d9488')}</div>\n<div class=\"g3\">\n<div class=\"card\"><h3>Status Kepatuhan Global</h3><div class=\"sub\">Status kepatuhan seluruh register kewajiban legal.</div>${ring()}<div class=\"lg\"><div><span><i class=\"dot\" style=\"background:#10b981\"></i>Peraturan Terpenuhi</span><b>${full.length} Peraturan</b></div><div><span><i class=\"dot\" style=\"background:var(--r)\"></i>Belum Terpenuhi</span><b>${low.length} Peraturan (${(low.length/R.length*100).toFixed(1)}%)</b></div><div><span><i class=\"dot\" style=\"background:#6366f1\"></i>Total Klausul</span><b>${clauses} Klausul</b></div></div></div>\n<div class=\"card\"><h3>Kepatuhan Berdasarkan Aspek</h3><div class=\"sub\">Kepatuhan klausul per aspek utama regulasi.</div>aspBar('K3',K3){aspBar('LH',LH)}<div class=\"card\" style=\"background:var(--gl);border:0;font-size:12px\"><b style=\"color:var(--g)\">PENCAPAIAN TARGET</b><br>Periode evaluasi ${DB.period}. Target 100% kepatuhan, ${cP} dari ${clauses} klausul telah terpenuhi.</div></div>\n<div class=\"card\"><h3>Rencana Tindak Lanjut Mendesak</h3><div class=\"sub\">Klausul belum patuh yang perlu diselesaikan.</div><div class=\"sc2\" style=\"margin-top:10px\">${rtl.slice(0,40).map(({r,c})=>`<div class=\"al\"><div style=\"display:flex;justify-content:space-between;gap:8px\"><b>${esc(r.n.slice(0,42))}\u2026</b><span style=\"color:var(--r);white-space:nowrap\">${esc(c[0])}</span></div><em>${c[3]?esc(c[3].slice(0,110)):'Belum ada deskripsi rencana tindak lanjut'}</em><div class=\"sub\">\ud83d\udcc5 Batas waktu: ${c[4]||'Tidak ditentukan'}</div></div>`).join('')}</div></div></div>\n${tabel()}`}\nconst di=()=>S.dept?DB.dn.indexOf(S.dept):-1;\nfunction rs(r){const k=di();if(k<0)return{p:r.p,b:r.b,v:r.v,cl:r.c||[]};const cl=r.c.filter(c=>c[3].includes(k)||c[4].includes(k)),p=cl.filter(c=>c[3].includes(k)&&!c[4].includes(k)).length;return{p,b:cl.length-p,v:cl.length?p/cl.length:1,cl}}\nconst isLow=(r,s)=>di()<0?r.v<1:s.b>0;\nfunction base(){return R.map((r,i)=>({r,i,s:rs(r)})).filter(x=>x.s.cl.length||di()<0)}\nfunction filt(){const q=S.q.toLowerCase();return base().filter(({r,s})=>(S.f=='all'||isLow(r,s))&&(!S.asp||r.a==S.asp)&&(!q||(r.n+r.t+r.d.join(' ')).toLowerCase().includes(q))).sort((a,b)=>a.s.v-b.s.v||a.r.n.localeCompare(b.r.n))}\nfunction tabel(){const L=filt(),B=base(),nLow=B.filter(({r,s})=>isLow(r,s)).length,pages=Math.max(1,Math.ceil(L.length/PS));S.pg=Math.min(S.pg,pages-1);const rows=L.slice(S.pg*PS,S.pg*PS+PS);\nreturn`<div class=\"card\" id=\"tbl\"><h3>\ud83d\udee1 ${S.dept?'Peraturan Terkait '+esc(S.dept):'Daftar Peraturan dengan Kepatuhan Kurang dari 100%'}</h3><div class=\"sub\">${S.dept?'Seluruh peraturan yang menjadi tanggung jawab departemen ini, patuh maupun belum. Klik Detail untuk melihat klausulnya.':'Regulasi dengan klausul belum terpenuhi beserta persentase kepatuhannya.'}</div>\n<div class=\"tb\"><input placeholder=\"Cari nama peraturan, topik, atau departemen\u2026\" value=\"${esc(S.q)}\" oninput=\"S.q=this.value;S.pg=0;draw(1)\"><select onchange=\"S.dept=this.value;S.pg=0;draw(1)\"><option value=\"\">Semua departemen</option>${DB.dn.map(d=>`<option S.dept==d?'selected':''>{esc(d)}</option>`).join('')}</select><select onchange=\"S.asp=this.value;S.pg=0;draw(1)\"><option value=\"\">Semua aspek</option><option ${S.asp=='K3'?'selected':''}>K3</option><option ${S.asp=='LH'?'selected':''}>LH</option></select>\n<div class=\"seg\"><button class=\"${S.f=='low'?'on':''}\" onclick=\"S.f='low';S.pg=0;draw(1)\">Belum patuh (${nLow})</button><button class=\"${S.f=='all'?'on':''}\" onclick=\"S.f='all';S.pg=0;draw(1)\">Semua (${B.length})</button></div></div>\n<div class=\"tw\"><table><thead><tr><th>#</th><th>Aspek & Topik</th><th>Nama Peraturan</th><th>Klausul Terpenuhi</th><th style=\"width:140px\">Progress</th><th>Persen</th><th>Aksi</th></tr></thead><tbody>\n${rows.length?rows.map(({r,i,s},n)=>{const t=s.p+s.b||1,ok=!isLow(r,s);return`<tr class=\"${ok?'':'bad'}\"><td><div class=\"no\" style=\"${ok?'background:var(--gl);color:var(--g)':''}\">${S.pg*PS+n+1}</div></td><td><span class=\"tg ${r.a=='LH'?'lh':''}\">${r.a}</span><div class=\"sub\">esc(r.t)</div></td><td><b>{esc(r.n)}</b>${r.d.length?`<div class=\"dn\">Dept belum patuh: ${esc(r.d.join(', '))}</div>`:''}</td><td><b>${s.p}</b> / ${s.p+s.b} Klausul</td><td><div class=\"bar\"><i style=\"width:${s.p/t*100}%\"></i><u style=\"width:${s.b/t*100}%\"></u></div><div class=\"sub\" style=\"display:flex;justify-content:space-between\"><span>${s.p} Patuh</span><span>${s.b} Belum</span></div></td><td><span class=\"pill ${ok?'ok':''}\">${pct(s.v)}</span></td><td><a class=\"d\" onclick=\"det(${i})\">Detail \u203a</a></td></tr>`}).join(''):`<tr><td colspan=\"7\" class=\"emp\">Tidak ada peraturan yang cocok.</td></tr>`}</tbody></table></div>\n<div class=\"pg\"><span>${L.length} peraturan \u00b7 halaman S.pg+1/{pages}</span><span><button ${S.pg?'':'disabled'} onclick=\"S.pg--;draw(1)\">\u2039 Sebelumnya</button> <button ${S.pg<pages-1?'':'disabled'} onclick=\"S.pg++;draw(1)\">Berikutnya \u203a</button></span></div></div>`}\nfunction departemen(){const q=S.dq.toLowerCase(),L=depts.filter(d=>d.n.toLowerCase().includes(q));return`<div class=\"card\"><h3>Kepatuhan per Departemen</h3><div class=\"sub\">Dihitung dari klausul yang menjadi tanggung jawab tiap departemen.</div><div class=\"tb\"><input placeholder=\"Cari departemen\u2026\" value=\"${esc(S.dq)}\" oninput=\"S.dq=this.value;draw(2)\"></div><div class=\"tw\"><table><thead><tr><th>Departemen</th><th>Peraturan</th><th>Patuh</th><th>Belum</th><th style=\"width:220px\">Progress</th><th>%</th></tr></thead><tbody>${L.map(d=>`<tr class=\"${d.b?'bad':''}\"><td><a class=\"d\" onclick=\"goDept(this.dataset.n)\" data-n=\"${esc(d.n)}\"><b>${esc(d.n)}</b></a></td><td>${d.r} <span class=\"sub\">peraturan</span></td><td>${d.p}</td><td>${d.b}</td><td><div class=\"bar\"><i style=\"width:${d.v*100}%\"></i><u style=\"width:${100-d.v*100}%\"></u></div></td><td><span class=\"pill ${d.b?'':'ok'}\">${pct(d.v)}</span></td></tr>`).join('')}</tbody></table></div></div>`}\nfunction rtlTab(){return`<div class=\"card\"><h3>Rencana Tindak Lanjut (${rtl.length})</h3><div class=\"sub\">Seluruh klausul belum patuh beserta rencana dan batas waktunya.</div><div class=\"tw\"><table><thead><tr><th>Peraturan</th><th>Pasal</th><th>Dept</th><th>Rencana Tindak Lanjut</th><th>Due Date</th></tr></thead><tbody>${rtl.map(({r,c})=>`<tr class=\"bad\"><td><b>esc(r.n)</b></td><td>{esc(c[0])}</td><td>esc(c[2].join(','))</td><td>{c[3]?esc(c[3]):'<i class=\"sub\">Belum ada deskripsi</i>'}</td><td>${c[4]||'\u2014'}</td></tr>`).join('')}</tbody></table></div></div>`}\nfunction det(i){const r=R[i],s=rs(r),k=di();document.getElementById('drb').innerHTML=`<button class=\"pill\" style=\"cursor:pointer\" onclick=\"dr.classList.remove('on')\">\u2715 Tutup</button><h3 style=\"margin-top:14px\">${esc(r.n)}</h3><div class=\"sub\">${r.a} \u00b7 esc(r.t){S.dept?' \u00b7 <b>'+esc(S.dept)+'</b>':''} \u00b7 <span class=\"pill ${s.b?'':'ok'}\">${pct(s.v)}</span></div><p>${s.p} klausul patuh, ${s.b} belum patuh (dari s.cl.lengthklausul).</p>{s.cl.map(c=>{const ok=k<0?c[5]:(c[3].includes(k)&&!c[4].includes(k));return`<div class=\"cl ${ok?'':'b'}\"><div style=\"display:flex;justify-content:space-between;gap:8px\"><b>${esc(c[0])}</b><span class=\"pill ${ok?'ok':''}\">${ok?'Patuh':'Belum patuh'}</span></div><div style=\"margin:6px 0\">esc(c[1])</div>{c[2]?`<div class=\"sub\"><b>Implementasi:</b> ${esc(c[2])}</div>`:''}<div class=\"sub\" style=\"margin-top:4px\">Dept patuh: ${esc(c[3].map(x=>DB.dn[x]).join(', ')||'\u2014')}</div>${c[4].length?`<div class=\"dn\">Dept belum patuh: ${esc(c[4].map(x=>DB.dn[x]).join(', '))}</div><div class=\"sub\">RTL: ${c[6]?esc(c[6]):'Belum ada'} \u00b7 Due: ${c[7]||'\u2014'}</div>`:''}</div>`}).join('')}${s.cl.length?'':'<div class=\"cl\">Belum ada klausul terdaftar untuk peraturan ini di sheet.</div>'}`;dr.classList.add('on')}\nconst dr=document.getElementById('dr');dr.onclick=e=>{if(e.target==dr)dr.classList.remove('on')};\nfunction draw(keep){const y=scrollY;const t={ring:ringkasan,reg:()=>tabel(),dep:departemen,rtl:rtlTab};\napp.innerHTML=`<div class=\"hd\"><div class=\"logo\"><div class=\"ic\">\ud83d\udee1</div><div><h1>Legal Compliance Dashboard <span class=\"bdg\">Kepatuhan Regulasi</span></h1><div class=\"sub\">Evaluasi & Pemantauan Kewajiban Kepatuhan Tambang K3 & Lingkungan Hidup</div></div></div><div style=\"display:flex;gap:8px\"><div class=\"box\">PERIODE<b>${DB.period}</b></div><div class=\"box\">TINGKAT KEPATUHAN<b style=\"color:var(--g)\">${pct(score)}</b></div></div></div>\n<div class=\"tabs\">${[['ring','Ringkasan Dashboard',''],['reg','Daftar Regulasi',R.length],['dep','Departemen',depts.length],['rtl','Rencana Tindak Lanjut',rtl.length]].map(([k,l,n])=>`<button class=\"tab ${S.tab==k?'on':''}\" onclick=\"S.tab='${k}';draw()\">l{n!==''?`<i class=\"${k=='rtl'?'red':''}\">${n}</i>`:''}</button>`).join('')}</div>${t[S.tab]()}`;\nif(keep){scrollTo(0,y);const i=app.querySelector('input:focus,input[value]');const inp=app.querySelector('.tb input');if(inp&&document.activeElement!==inp&&keep===1&&S.q||S.dq&&keep===2){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length)}}}\nconst app=document.getElementById('app');draw();\n";
+        function parseCSV(s) { const rows = []; let r = [], f = '', q = false; for (let i = 0; i < s.length; i++) { const c = s[i]; if (q) { if (c == '"') { if (s[i + 1] == '"') { f += '"'; i++ } else q = false } else f += c } else if (c == '"') q = true; else if (c == ',') { r.push(f); f = '' } else if (c == '\n') { r.push(f); rows.push(r); r = []; f = '' } else if (c != '\r') f += c } if (f !== '' || r.length) { r.push(f); rows.push(r) } return rows }
+        function buildDB(rows) {
+            const T = v => (v == null ? '' : String(v)).trim(), L = v => T(v).split(',').map(x => x.trim()).filter(Boolean);
+            const regs = [], D = {}, names = new Set(); let cur = null; const period = T((rows[2] || [])[3]);
+            for (const row of rows) {
+                const r = row.concat(Array(16).fill(''));
+                if ((T(r[1]) == 'K3' || T(r[1]) == 'LH') && T(r[3])) {
+                    let n = parseFloat(T(r[12]).replace('%', '').replace(',', '.')); if (isNaN(n)) n = 1; else if (n > 1) n /= 100;
+                    cur = { n: T(r[3]), a: T(r[1]), t: T(r[2]), v: Math.round(n * 1e4) / 1e4, p: 0, b: 0, d: [], x: [], c: [] }; regs.push(cur)
+                }
+                else if (cur && T(r[4])) {
+                    const ok = T(r[10]).toLowerCase() == 'v', dp = L(r[8]), dn = L(r[9]); dp.concat(dn).forEach(d => names.add(d));
+                    dp.forEach(d => (D[d] = D[d] || [0, 0])[0]++); dn.forEach(d => (D[d] = D[d] || [0, 0])[1]++);
+                    const due = T(r[15]), c = [T(r[4]), T(r[5]).slice(0, 240), T(r[6]).slice(0, 200), dp, dn, ok ? 1 : 0, T(r[14]).slice(0, 220), due]; cur.c.push(c);
+                    if (ok) cur.p++; else { cur.b++; dn.forEach(d => { if (!cur.d.includes(d)) cur.d.push(d) }); cur.x.push([c[0], c[1], dn, c[6], due]) }
+                }
+            }
+            const dn = [...names].sort((a, b) => a.localeCompare(b)); regs.forEach(g => g.c = g.c.map(c => [c[0], c[1], c[2], c[3].map(d => dn.indexOf(d)), c[4].map(d => dn.indexOf(d)), c[5], c[6], c[7]]));
+            if (!regs.length) throw new Error('Tidak ada baris peraturan (kolom Aspek K3/LH) yang terbaca. Pastikan tab pertama yang dipublikasikan adalah "evaluasi 2026".');
+            return { period: period || new Date().toISOString().slice(0, 10), regs, dept: D, dn }
+        }
+        async function load() {
+            const st = document.getElementById('st'), app = document.getElementById('app');
+            app.innerHTML = '<div class="card emp">Memuat data dari Google Sheets…</div>';
+            try {
+                const res = await fetch(SHEET_URL + '&t=' + Date.now()); if (!res.ok) throw new Error('HTTP ' + res.status);
+                window.__DB = buildDB(parseCSV(await res.text()));
+                const s = document.createElement('script'); s.text = BODY; document.body.appendChild(s);
+                st.innerHTML = 'Sumber: Google Sheets · dimuat ' + new Date().toLocaleString('id-ID') + ' · <a class="d" onclick="location.reload()">Muat ulang data</a>'
+            }
+            catch (e) { app.innerHTML = '<div class="card emp"><b style="color:var(--r)">Gagal memuat data.</b><br>' + String(e.message).replace(/</g, '&lt;') + '<br><br>Cek link CSV dan pengaturan "Publikasikan ke web".<br><br><button class="pill" style="cursor:pointer" onclick="load()">Coba lagi</button></div>' }
+        }
+        load();
+    </script>
+</body>
+
+</html>
